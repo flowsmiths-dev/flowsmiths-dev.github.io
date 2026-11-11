@@ -14,8 +14,103 @@
   <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
 </div></header>
 <article class="doc"><h1>Privacy policy</h1>
-<p>This page is being finalised and will be published here before Expiry Tracker is listed on the Atlassian Marketplace.</p>
-<p>Questions in the meantime: <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a>.</p>
+<p>Last updated: 11 November 2026</p>
+<p>Expiry Tracker (&quot;the app&quot;) is provided by Tomas Bindac, Czech Republic, doing business as Flowsmiths
+(&quot;Flowsmiths&quot;, &quot;we&quot;).
+Contact: <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a> · Security reports: <a href="mailto:security@flowsmiths.app">security@flowsmiths.app</a></p>
+<h2>1. Summary</h2>
+<ul>
+<li>The app runs entirely on Atlassian Forge. The data you enter is stored in Atlassian&#39;s Forge storage for your site.</li>
+<li>We do not operate servers that receive your data, and we do not sell or share it.</li>
+<li>The app does not use analytics, tracking or advertising.</li>
+<li>The only data the app sends outside Atlassian is a domain name, sent to that domain&#39;s registry to read its expiry date.</li>
+</ul>
+<h2>2. What the app stores</h2>
+<p>Stored in Atlassian Forge storage, separately for each Jira site where the app is installed:</p>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Items you create: type, name, host or domain name, port, expiry date, vendor, cost, currency, note</td>
+<td>To show the items and to create reminder issues</td>
+</tr>
+<tr>
+<td>Atlassian account ID of each item&#39;s owner</td>
+<td>To assign the reminder issue</td>
+</tr>
+<tr>
+<td>Settings: target project ID, issue type ID, reminder thresholds</td>
+<td>To create issues where you want them</td>
+</tr>
+<tr>
+<td>Reminder records: which reminder issue (issue key) was created for which item and date</td>
+<td>To avoid duplicate issues</td>
+</tr>
+<tr>
+<td>Result of automatic lookups: time of the last check and the last error message</td>
+<td>To show whether data is current</td>
+</tr>
+<tr>
+<td>Summary of the last daily check: counts and up to five problem messages (these can include item names)</td>
+<td>To show administrators what happened</td>
+</tr>
+<tr>
+<td>SSL agent: a SHA-256 hash of the agent token, the time of the last report, and the agent&#39;s name and version as sent by the agent (by default the host name of the machine it runs on)</td>
+<td>To authenticate the agent and show whether it is working</td>
+</tr>
+</tbody></table>
+<p>The app does not store names, e-mail addresses or passwords of users. It stores Atlassian account IDs only for item owners.
+The agent token itself is shown once and is not stored; only its hash is.</p>
+<h2>3. What the app reads from Jira</h2>
+<p>Using the permissions you grant at installation:</p>
+<ul>
+<li>the list of projects and issue types (to let an administrator choose where issues are created);</li>
+<li>user details needed to display and pick an item&#39;s owner (handled by Jira&#39;s own user picker and user display).</li>
+</ul>
+<p>The app creates issues in the project you choose. It does not read your existing issues.</p>
+<h2>4. Data sent outside Atlassian</h2>
+<p><strong>Domain registries.</strong> For items of type &quot;domain&quot;, the app sends the domain name over HTTPS to the RDAP server of the
+responsible registry (for example Verisign for .com) and reads the expiry date from the answer. No other data is sent.
+The registries are independent organisations with their own privacy policies. The full list of servers the app may
+contact is published in the app&#39;s listing (20 RDAP hosts).</p>
+<p><strong>SSL agent.</strong> If you choose to use it, the agent script runs on your own machine. It receives from the app the list of
+hosts and ports you entered for SSL items, connects to those hosts from your network, and sends back to the app the
+certificate expiry date or an error message for each host, together with the agent&#39;s name and version. This exchange
+happens between your machine and Atlassian&#39;s Forge platform. We are not a party to it and receive none of it.</p>
+<p><strong>Nothing else.</strong> The app does not contact Flowsmiths servers or any third-party analytics, advertising or tracking service.</p>
+<h2>5. Our access to your data</h2>
+<p>We have no direct access to the data stored for your site. As the app&#39;s developer we can see technical logs in
+Atlassian&#39;s developer console. The app is written to log counts and technical error details, not the contents of your
+items; an unexpected error may nevertheless include fragments of the data being processed. Logs are retained by
+Atlassian according to its own retention rules.</p>
+<p>If you contact support and send us data (for example a screenshot or an export), we use it only to help you and delete
+it when the request is closed, unless the law requires us to keep it.</p>
+<h2>6. Where data is stored and for how long</h2>
+<p>Data is stored and processed by Atlassian on the Forge platform. Atlassian acts as the hosting provider; see
+Atlassian&#39;s privacy policy and Forge documentation for locations, security and data residency.</p>
+<p>Data is kept while the app is installed. You can delete any item in the app at any time; deleting an item also deletes
+its reminder records. When the app is uninstalled, Atlassian deletes the app&#39;s stored data according to the Forge
+platform&#39;s retention rules. Issues the app created are ordinary Jira issues and stay in your Jira site until you delete them.</p>
+<h2>7. Legal basis and your rights (EU/EEA, UK)</h2>
+<p>For the data the app stores, your organisation (the Jira customer) decides what is entered and is the controller.
+To the extent we process personal data on your behalf, we act as a processor. The personal data involved is limited to
+Atlassian account IDs of item owners and any personal data you choose to type into names or notes.</p>
+<p>You can view, correct, export (CSV) and delete the data in the app yourself. For any other request regarding your
+rights of access, rectification, erasure, restriction, portability or objection, contact <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a> or your
+Jira administrator. You also have the right to lodge a complaint with your data protection authority.</p>
+<h2>8. Security</h2>
+<p>See the app&#39;s security statement in the Marketplace listing. In short: data is stored only in Forge storage, the app
+requests the minimum Jira permissions it needs, outbound connections are limited to a fixed list of registry servers,
+and the agent endpoint requires a secret token.</p>
+<h2>9. Changes</h2>
+<p>We will publish changes to this policy at this address and update the date above. Material changes to what data
+leaves Atlassian also require you to approve the app&#39;s updated permissions in Jira.</p>
+<h2>10. Contact</h2>
+<p>Tomas Bindac (Flowsmiths) · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a> · <a href="https://flowsmiths.app">https://flowsmiths.app</a></p>
 </article>
 <footer><div class="wrap">
   <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
