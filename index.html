@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expiry Tracker for Jira: never miss a renewal</title>
+<meta name="description" content="Track SSL certificates, domains, licenses and contracts in Jira and get an issue 60, 30 and 7 days before anything expires.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
+  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+</div></header>
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>Never miss<br>a <span class="grad">renewal</span>.</h1>
+    <p class="sub">Expiry Tracker keeps your SSL certificates, domains, licenses and contracts in Jira, and opens an issue for the right owner 60, 30 and 7 days before anything expires.</p>
+    <div class="chips"><span class="chip">SSL certificates</span><span class="chip">Domains</span><span class="chip">Licenses</span><span class="chip">Contracts</span></div>
+    <div class="ctas"><a class="cta" href="docs.html">Coming soon to the Atlassian Marketplace</a><a class="cta ghost" href="docs.html">Read the docs</a></div>
+    <p class="note">Free for teams of up to 10 users · Works on Jira Standard · No Assets needed</p>
+  </div>
+  <div class="panel" aria-label="Example of the Next 90 days view">
+    <h2>NEXT 90 DAYS</h2>
+    <div class="row"><div><b>portal.example.com</b><small>SSL certificate</small></div><span class="days">7 days</span><span class="loz crit">Critical</span></div>
+    <div class="row"><div><b>example.com</b><small>Domain</small></div><span class="days">29 days</span><span class="loz warn">Expiring</span></div>
+    <div class="row"><div><b>IDE team license</b><small>License · 25 seats</small></div><span class="days">58 days</span><span class="loz warn">Expiring</span></div>
+    <div class="row"><div><b>Internet line, HQ</b><small>Contract</small></div><span class="days">84 days</span><span class="loz ok">OK</span></div>
+  </div>
+</div></div>
+
+<section><div class="wrap">
+  <h2 class="sec">One list for everything that expires</h2>
+  <p class="lead">Certificates lapse, domains drop, licenses run out and contracts renew themselves. Most teams find out too late. Expiry Tracker turns each date into a Jira issue while there is still time.</p>
+  <div class="grid3">
+    <div class="card"><h3>A Jira issue, not another inbox</h3><p>Reminders arrive where your team already works: one issue per reminder in the project you choose, assigned to the item's owner. Never duplicates.</p></div>
+    <div class="card"><h3>Dates you do not have to type</h3><p>Domain expiry dates come from the registry. Certificate dates come from a tiny open-source agent on your network, so internal hosts work too.</p></div>
+    <div class="card"><h3>Built to be trusted</h3><p>If a lookup fails you see why next to the item. If an issue cannot be created it is retried the next day. If the agent goes quiet you get an issue about that as well.</p></div>
+  </div>
+</div></section>
+
+<section class="soft"><div class="wrap">
+  <h2 class="sec">How it works</h2>
+  <p class="lead">Set it up in a few minutes. After that it runs once a day on its own.</p>
+  <div class="grid3">
+    <div class="card"><span class="num">1</span><h3>Add what you want to track</h3><p>A name, an owner, and a host, a domain or a date. Optionally vendor, cost and a note.</p></div>
+    <div class="card"><span class="num">2</span><h3>Choose where issues go</h3><p>A Jira administrator picks the project, the issue type and how many days ahead to remind.</p></div>
+    <div class="card"><span class="num">3</span><h3>Renew in time</h3><p>The owner gets an issue before the date. When the item is renewed, the reminders start over for the new date.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 class="sec">Simple pricing</h2>
+  <p class="lead">Billed through the Atlassian Marketplace together with your Jira subscription.</p>
+  <div class="price">
+    <div class="card"><h3>Up to 10 users</h3><div class="big">Free</div>
+      <ul class="ticks"><li>All features</li><li>Up to 500 tracked items</li><li>E-mail support</li></ul></div>
+    <div class="card"><h3>Larger teams</h3><div class="big">about $0.50 <span style="font-size:18px;font-weight:600;color:var(--muted)">per user / month</span></div>
+      <ul class="ticks"><li>For example $25 a month for 50 users</li><li>Lower per-user price for larger sites</li><li>30-day free trial through the Marketplace</li></ul></div>
+  </div>
+</div></section>
+
+<section class="soft"><div class="wrap">
+  <h2 class="sec">Your data stays in Atlassian</h2>
+  <p class="lead">Expiry Tracker runs on Atlassian Forge and stores its data in Forge storage for your site. We run no servers that receive it, and we use no analytics or tracking. The only thing that leaves Atlassian is a domain name, sent to that domain's registry to read its expiry date. <a href="privacy.html">Privacy policy</a> · <a href="security.html">Security</a></p>
+</div></section>
+
+<footer><div class="wrap">
+  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
+  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
+  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+</div></footer>
+</body>
+</html>

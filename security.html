@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security: Expiry Tracker for Jira</title>
+<meta name="description" content="How to report a security problem in Expiry Tracker for Jira and what to expect.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
+  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+</div></header>
+<article class="doc"><h1>Security</h1>
+<h2>Reporting a vulnerability</h2>
+<p>Please report security problems in Expiry Tracker or its SSL agent by e-mail to <strong><a href="mailto:security@flowsmiths.app">security@flowsmiths.app</a></strong>.
+Do not open a public issue for a vulnerability.</p>
+<p>Include, if you can: what you found, how to reproduce it, and which Jira site type (Cloud) and app version are affected.
+Do not include real customer data.</p>
+<p>What to expect:</p>
+<ul>
+<li>an acknowledgement within 2 business days;</li>
+<li>an assessment and a planned fix date within 7 days;</li>
+<li>fixes within the timelines of Atlassian&#39;s security bug fix policy for Marketplace cloud apps, by severity,
+counted from when we confirm the problem;</li>
+<li>credit in the release notes if you want it.</li>
+</ul>
+<p>We will not take legal action against good-faith research that respects the privacy of others, avoids data
+destruction and service disruption, and gives us reasonable time to fix a problem before disclosure.</p>
+<h2>Scope</h2>
+<ul>
+<li>The app &quot;Expiry Tracker&quot; for Jira Cloud</li>
+<li>The SSL agent script</li>
+</ul>
+<p>Out of scope: the Atlassian platform itself (report to Atlassian), and domain registries&#39; RDAP services.</p>
+<h2>If something goes wrong on our side</h2>
+<ol>
+<li>Confirm and contain: disable the affected function or roll back the deployment (<code>forge deploy</code> of the last good version).</li>
+<li>Assess what data could be affected. The app stores data only in Forge Storage per installation.</li>
+<li>Notify Atlassian through the partner security channel and affected customers without undue delay, with what happened,
+what data is involved and what they should do (for example replace the agent token).</li>
+<li>Fix, add a regression test, and publish what was changed.</li>
+</ol>
+</article>
+<footer><div class="wrap">
+  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
+  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
+  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+</div></footer>
+</body>
+</html>

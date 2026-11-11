@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentation: Expiry Tracker for Jira</title>
+<meta name="description" content="How to set up and use Expiry Tracker for Jira: items, reminder issues, the SSL agent, CSV export, permissions.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
+  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+</div></header>
+<article class="doc"><h1>Expiry Tracker documentation</h1>
+<p>Expiry Tracker is an app for Jira and Jira Service Management Cloud. It keeps a list of things that expire
+(SSL certificates, domains, software licenses, contracts) and creates a Jira issue for the owner ahead of each expiry date.</p>
+<h2>Get started</h2>
+<ol>
+<li><strong>Install</strong> the app from the Atlassian Marketplace (a Jira administrator does this).</li>
+<li><strong>Open the settings</strong>: Jira settings → Apps → Expiry Tracker (in the left sidebar), or the &quot;Open settings&quot; button on the app page.
+Choose the <strong>project</strong> and <strong>issue type</strong> for reminder issues and save. Click <strong>Send test issue</strong> to check that
+the app can create issues there.</li>
+<li><strong>Add items</strong>: open Apps → Expiry Tracker and click <strong>Add item</strong>.</li>
+</ol>
+<p>Until a project and an issue type are saved, the app shows a warning and creates no issues.</p>
+<h2>Items</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What you enter</th>
+<th>Where the date comes from</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SSL certificate</td>
+<td>Host name, optionally with a port (<code>host:8443</code>)</td>
+<td>The SSL agent on your network (see below). You can also enter a date manually as a fallback.</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Domain name</td>
+<td>The domain registry, looked up when you save and once a day. Registries without machine-readable data (for example .de, .io, .eu) need a manual date; the item tells you.</td>
+</tr>
+<tr>
+<td>License</td>
+<td>Expiry date</td>
+<td>You</td>
+</tr>
+<tr>
+<td>Contract</td>
+<td>Expiry or renewal date</td>
+<td>You</td>
+</tr>
+</tbody></table>
+<p>Every item can have an <strong>owner</strong> (the reminder issue is assigned to them), a vendor, a cost with currency, and a note.</p>
+<p>The list shows a status for each item:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OK</td>
+<td>Further away than your largest reminder threshold</td>
+</tr>
+<tr>
+<td>Expiring</td>
+<td>Inside your largest threshold</td>
+</tr>
+<tr>
+<td>Critical</td>
+<td>Inside your smallest threshold, including the expiry day itself</td>
+</tr>
+<tr>
+<td>Expired</td>
+<td>The date has passed</td>
+</tr>
+<tr>
+<td>Unknown</td>
+<td>No date yet (lookup pending or failed; the reason is shown under the item name)</td>
+</tr>
+</tbody></table>
+<h2>Reminder issues</h2>
+<p>Once a day the app checks every item. When an item reaches a threshold (by default 60, 30 and 7 days before expiry),
+it creates one issue:</p>
+<ul>
+<li>summary such as <code>[Expiry] SSL certificate portal.example.com expires in 30 days (2026-12-10)</code>;</li>
+<li>description with the date, host, vendor, cost and note;</li>
+<li>label <code>expiry-tracker</code>;</li>
+<li>assigned to the item&#39;s owner. If Jira does not accept the owner, the issue is created unassigned.</li>
+</ul>
+<p>Rules worth knowing:</p>
+<ul>
+<li>One issue per item per day at most. If an item is added late and has already passed several thresholds, you get one
+issue for the most urgent one, not one for each.</li>
+<li>An issue that could not be created is retried the next day.</li>
+<li>When an item&#39;s date moves forward (it was renewed), reminders start again for the new date.</li>
+<li>No extra issue is created on or after the expiry date.</li>
+</ul>
+<p>Administrators can change the thresholds in the settings (up to five values between 1 and 365 days) and use
+<strong>Run check now</strong> to run the daily check immediately. The settings page shows the result of the last run.</p>
+<h2>SSL agent</h2>
+<p>Atlassian apps cannot open connections to your servers. Certificates are therefore checked by a small shell script
+that you run on a Linux machine in your network. It needs only <code>sh</code>, <code>curl</code> and <code>openssl</code>.</p>
+<p>What it does, once a day: asks Expiry Tracker which hosts to check, reads each host&#39;s certificate expiry date,
+and sends the dates (or error messages) back. It works for hosts that are not reachable from the internet and for
+certificates from private CAs.</p>
+<p>Set it up from the settings page: <strong>Create agent token</strong>, then follow the three commands shown there
+(save the settings, download the script from the app, run it and add it to cron).</p>
+<p>If the agent has not reported for 48 hours, the app shows a warning and opens one Jira issue. A new token replaces the
+old one, so replace the token if it may have leaked.</p>
+<h2>CSV export</h2>
+<p><strong>Export CSV</strong> on the app page shows all items as CSV text: copy it into a file. Columns: type, name, host, port,
+expiry date, days left, status, date source, vendor, cost, currency, owner account ID, note, last checked, last error.</p>
+<h2>Permissions</h2>
+<ul>
+<li>Anyone who can open the app page can view, add, edit and delete items and export the CSV.</li>
+<li>Settings, the test issue, &quot;Run check now&quot; and the agent token are available to Jira administrators only.</li>
+</ul>
+<p>The app asks Jira for these permissions: read and write Jira work (to list projects and issue types and to create
+issues), read users (to pick and show owners), and app storage.</p>
+<h2>Limits</h2>
+<ul>
+<li>500 items per Jira site.</li>
+<li>One daily check; domain lookups that would make the check too long are continued the next day.</li>
+<li>Without an active licence the app is read-only: your data stays visible and exportable, but nothing can be changed
+and no issues are created.</li>
+</ul>
+</article><article class="doc"><h1>SSL agent reference</h1>
+<p>A small shell script that reads TLS certificate expiry dates on your network and reports them to
+Expiry Tracker for Jira. Atlassian apps cannot open connections to your servers, so this
+script does it from a machine you control. It also works for hosts that are not reachable from the internet.</p>
+<ul>
+<li>One file, about 130 lines of POSIX <code>sh</code>. Read it before you run it.</li>
+<li>Needs only <code>sh</code>, <code>curl</code> and <code>openssl</code>. No root, no daemon, no inbound ports.</li>
+<li>Sends, per host: the certificate&#39;s &quot;not after&quot; date or an error message; plus the agent version and a name
+(by default this machine&#39;s host name). Nothing else.</li>
+</ul>
+<h2>Install</h2>
+<ol>
+<li>In Jira: <strong>Settings → Apps → Expiry Tracker → Create agent token</strong>. Copy the URL and the token (shown once).</li>
+<li>On a Linux machine that can reach your hosts and the internet, save the settings and download the script.
+The script is served by the app itself, so you always get the version that matches your installation:</li>
+</ol>
+<pre><code class="language-sh">umask 077
+cat &gt; expiry-agent.env &lt;&lt;&#39;EOF&#39;
+EXPIRY_TRACKER_URL=&#39;https://…&#39;
+EXPIRY_TRACKER_TOKEN=&#39;…&#39;
+EOF
+
+. ./expiry-agent.env
+curl -fsSL -H &quot;Authorization: Bearer $EXPIRY_TRACKER_TOKEN&quot; -o expiry-agent.sh &quot;$EXPIRY_TRACKER_URL?download=agent&quot;
+chmod +x expiry-agent.sh
+</code></pre>
+<ol start="3">
+<li>Test it:</li>
+</ol>
+<pre><code class="language-sh">./expiry-agent.sh expiry-agent.env
+</code></pre>
+<p>Expected output: one <code>ok</code> or <code>FAILED</code> line per host, then <code>report accepted</code>. The hosts are the SSL items you added in Jira.</p>
+<h2>Run it daily</h2>
+<p>cron:</p>
+<pre><code class="language-sh">( crontab -l 2&gt;/dev/null; echo &quot;17 3 * * * $PWD/expiry-agent.sh $PWD/expiry-agent.env&quot; ) | crontab -
+</code></pre>
+<p>systemd (as root; adjust paths and user):</p>
+<pre><code class="language-ini"># /etc/systemd/system/expiry-agent.service
+[Unit]
+Description=Expiry Tracker SSL agent
+[Service]
+Type=oneshot
+User=expiry
+ExecStart=/opt/expiry-agent/expiry-agent.sh /opt/expiry-agent/expiry-agent.env
+
+# /etc/systemd/system/expiry-agent.timer
+[Unit]
+Description=Run the Expiry Tracker SSL agent daily
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=1h
+Persistent=true
+[Install]
+WantedBy=timers.target
+</code></pre>
+<pre><code class="language-sh">systemctl daemon-reload &amp;&amp; systemctl enable --now expiry-agent.timer
+</code></pre>
+<p>If the agent does not report for 48 hours, Expiry Tracker opens a Jira issue.</p>
+<h2>Settings</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>EXPIRY_TRACKER_URL</code></td>
+<td>Agent URL from the settings page</td>
+<td>required</td>
+</tr>
+<tr>
+<td><code>EXPIRY_TRACKER_TOKEN</code></td>
+<td>Agent token from the settings page</td>
+<td>required</td>
+</tr>
+<tr>
+<td><code>EXPIRY_TRACKER_TIMEOUT</code></td>
+<td>Seconds to wait per host</td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td><code>EXPIRY_TRACKER_AGENT_ID</code></td>
+<td>Name shown in Jira</td>
+<td>host name</td>
+</tr>
+</tbody></table>
+<p>Exit codes: <code>0</code> report accepted (even if some hosts failed), <code>1</code> could not talk to Expiry Tracker, <code>2</code> configuration problem.</p>
+<h2>Troubleshooting</h2>
+<ul>
+<li><code>HTTP 401</code>: the token is wrong or was replaced. Create a new one in Jira.</li>
+<li><code>HTTP 403</code>: the app has no active licence on the Jira site.</li>
+<li><code>HTTP 000</code>: no connection to the URL (proxy, firewall, DNS).</li>
+<li>A host shows <code>FAILED</code>: run <code>openssl s_client -connect host:port -servername host &lt;/dev/null</code> by hand to see why.</li>
+</ul>
+<h2>Security notes</h2>
+<ul>
+<li>Keep the env file readable only by the user that runs the agent (<code>chmod 600</code>).</li>
+<li>Anyone with the token can read the list of SSL host names you track and submit certificate dates. Replace the token
+in Jira if it may have leaked.</li>
+<li>The agent does not verify certificate chains: it reports the date of whatever certificate the host presents,
+which is what you want for expiry tracking, including private CAs.</li>
+</ul>
+<p>License: MIT.</p>
+</article>
+<footer><div class="wrap">
+  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
+  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
+  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+</div></footer>
+</body>
+</html>

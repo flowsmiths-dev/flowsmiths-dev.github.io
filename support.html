@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support: Expiry Tracker for Jira</title>
+<meta name="description" content="How to get help with Expiry Tracker for Jira, and answers to frequent questions.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
+  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+</div></header>
+<article class="doc"><h1>Support</h1>
+<p><strong>Contact:</strong> <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a>
+<strong>Hours:</strong> Monday to Friday, 9:00–17:00 Central European Time
+<strong>Response time:</strong> within 2 business days; we answer in English or Czech
+<strong>Security reports:</strong> <a href="mailto:security@flowsmiths.app">security@flowsmiths.app</a> (see <a href="security.html">Security</a>)</p>
+<p>When you write, it helps to include:</p>
+<ul>
+<li>your Jira site address and the app version (Jira settings → Apps → Manage apps → Expiry Tracker);</li>
+<li>what you expected and what happened;</li>
+<li>for missing issues: the &quot;Last run&quot; lines from the Expiry Tracker settings page;</li>
+<li>for the SSL agent: the output of <code>./expiry-agent.sh expiry-agent.env</code>.</li>
+</ul>
+<p>Please do not send agent tokens or passwords. We never ask for them.</p>
+<h2>Frequently asked questions</h2>
+<p><strong>No issues are created.</strong> A Jira administrator must choose a project and an issue type in the app settings.
+Use &quot;Send test issue&quot; there to check it, and &quot;Run check now&quot; to see the result immediately.</p>
+<p><strong>The domain date says &quot;unknown&quot;.</strong> Some registries (for example .de, .io, .eu) do not publish expiry dates in a
+machine-readable way. Enter the date manually; the item shows a note explaining this.</p>
+<p><strong>SSL dates are not updated.</strong> SSL certificates are checked by the agent script on your network. The settings page
+shows when it last reported. If it has not reported for 48 hours you also get a Jira issue.</p>
+<p><strong>Can I change when issues are created?</strong> Yes, in the settings: up to five thresholds between 1 and 365 days.</p>
+<p><strong>Does it work on Jira Standard / without Assets?</strong> Yes.</p>
+<p><strong>Where is my data?</strong> In Atlassian&#39;s Forge storage for your site. See the privacy policy.</p>
+<p><strong>How do I get my data out?</strong> &quot;Export CSV&quot; on the app page.</p>
+</article>
+<footer><div class="wrap">
+  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
+  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
+  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+</div></footer>
+</body>
+</html>
