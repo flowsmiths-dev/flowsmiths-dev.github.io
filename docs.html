@@ -54,6 +54,11 @@ the app can create issues there.</li>
 <td>Expiry or renewal date</td>
 <td>You</td>
 </tr>
+<tr>
+<td>Recurring check</td>
+<td>Next due date, an interval (every N days, weeks, months or years) and how many days ahead the issue should be created</td>
+<td>You enter the first date; the app sets every following one</td>
+</tr>
 </tbody></table>
 <p>Every item can have an <strong>owner</strong> (the reminder issue is assigned to them), a vendor, a cost with currency, and a note.</p>
 <p>The list shows a status for each item:</p>
@@ -85,6 +90,21 @@ the app can create issues there.</li>
 <td>No date yet (lookup pending or failed; the reason is shown under the item name)</td>
 </tr>
 </tbody></table>
+<h2>Recurring checks</h2>
+<p>Use a recurring check for work that has no expiry date but must not be forgotten: testing a backup restore every
+quarter, patching servers every month, reviewing who has admin access twice a year.</p>
+<ul>
+<li>You enter the next due date and the interval. The app creates <strong>one issue per due date</strong>, the chosen number of days
+ahead (7 by default, 0 means on the due date itself), assigned to the owner. The site-wide thresholds do not apply.</li>
+<li>The summary looks like <code>[Check] Backup restore test is due in 7 days (2026-12-10)</code>.</li>
+<li>The day after the due date, the check moves to its next due date by itself. Closing the Jira issue is up to you; the
+app does not look at it.</li>
+<li>Dates are counted from the date you entered, so a monthly check set for the 31st falls on the last day of shorter
+months and returns to the 31st afterwards. Editing the date or the interval starts the count from the new date.</li>
+<li>If the daily check did not run on a due date, the issue is still created on the next run, and only then does the
+check move on. If the issue cannot be created, the check stays overdue and is retried the next day.</li>
+<li>In the list a check is shown as <strong>Due</strong> inside its lead time and <strong>Overdue</strong> after the due date.</li>
+</ul>
 <h2>Reminder issues</h2>
 <p>Once a day the app checks every item. When an item reaches a threshold (by default 60, 30 and 7 days before expiry),
 it creates one issue:</p>
