@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domain expiry monitoring in Jira | Expiry Tracker</title>
+<meta name="description" content="How to read domain expiry dates from the registry (RDAP) and get a Jira issue assigned to an owner before a domain lapses.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
+  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+</div></header>
+<article class="doc"><h1>Domain expiry monitoring in Jira</h1>
+<p>Registrars send renewal notices, and domains still expire. The notices go to the address of whoever registered the
+domain years ago, the card on file has been replaced, or auto-renew was switched off during a transfer. When a domain
+lapses, the website, the e-mail and every certificate on it stop at the same time. This guide shows how to get the
+warning into Jira, where it is assigned to a person instead of sent to a mailbox.</p>
+<h2>Where the expiry date comes from</h2>
+<p>Every domain has a public registration record. The modern way to read it is RDAP, the successor to WHOIS, which
+returns structured data over HTTPS. For example, for a .com domain:</p>
+<pre><code>curl -s https://rdap.verisign.com/com/v1/domain/example.com | grep -o &#39;&quot;eventAction&quot;:&quot;expiration&quot;[^}]*&#39;
+</code></pre>
+<p>Not every registry offers this. Some country-code registries, for example .de, .io and .eu, do not publish an
+expiry date in machine-readable form. For those the date has to come from your registrar&#39;s control panel.</p>
+<h2>Option 1: a list and a calendar</h2>
+<p>List your domains with their expiry dates and put the dates into a shared calendar or into Jira due dates. This is
+enough for three domains with one registrar.</p>
+<p>What goes wrong: the list is not updated after a renewal or a transfer, and nobody notices that auto-renew failed,
+because the list still shows last year&#39;s assumption.</p>
+<h2>Option 2: a script</h2>
+<p>Run the RDAP query above from cron for each domain, compare the date with today, and create a Jira issue through an
+automation webhook when it gets close. You will also need to find the right RDAP server for each top-level domain
+(IANA publishes the list), handle registries that answer differently, and avoid creating the same issue every day.</p>
+<h2>Option 3: Expiry Tracker</h2>
+<p><a href="index.html">Expiry Tracker</a> is a Jira app that keeps the domain list in Jira and reads the dates for you.</p>
+<ol>
+<li>Add an item of type Domain with the domain name and an owner.</li>
+<li>The app looks up the expiry date at the domain&#39;s registry when you save, and again once a day. If a domain is
+renewed, the date in the list follows by itself.</li>
+<li>By default the owner gets a Jira issue 60, 30 and 7 days before expiry, in the project an administrator chose.</li>
+</ol>
+<p>If the registry does not publish the date, the item says so and you enter the date by hand. If a lookup fails, the
+reason is shown next to the item instead of the item silently keeping an old date.</p>
+<p>The only thing the app sends outside Atlassian is the domain name itself, to the registry responsible for it.</p>
+<p>What it does not do: it does not renew domains or talk to your registrar. It watches the public record and tells
+the owner.</p>
+<h2>Why this is worth doing even with auto-renew</h2>
+<p>Auto-renew fails quietly: an expired card, a registrar account nobody can log in to, a domain that was moved and lost
+the setting. A reminder that reads the registry&#39;s own record does not depend on any of these. If the date has not
+moved 30 days before expiry, something is wrong with the renewal, and someone has a Jira issue saying so.</p>
+<p>The same list can hold your <a href="ssl-certificate-expiry-jira.html">SSL certificates</a> and your
+<a href="license-contract-renewal-tracking-jira.html">licenses and contracts</a>. Setup details are in the
+<a href="docs.html">documentation</a>.</p>
+</article>
+<footer><div class="wrap">
+  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
+  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
+  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+</div></footer>
+</body>
+</html>

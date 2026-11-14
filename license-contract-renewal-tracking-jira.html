@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracking software license and contract renewals in Jira | Expiry Tracker</title>
+<meta name="description" content="How to track license and contract renewal dates in Jira without Assets: due dates, automation rules, or Expiry Tracker on Jira Standard.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
+  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+</div></header>
+<article class="doc"><h1>Tracking software license and contract renewals in Jira</h1>
+<p>Licenses and vendor contracts fail differently from certificates. Nothing breaks on the day. Instead the contract
+renews itself for another year at the old seat count, or the notice period passes while everyone assumed someone else
+was looking. This guide covers how to keep renewal dates in Jira so the right person hears about them in time.</p>
+<h2>What to record for each renewal</h2>
+<ul>
+<li><strong>The date that matters.</strong> For a contract with a notice period this is the last day you can cancel, not the end date.</li>
+<li><strong>An owner.</strong> The person who decides whether to renew, not the person who pays the invoice.</li>
+<li><strong>Vendor and cost.</strong> With these in the list, the reminder issue already contains what the owner needs to decide.</li>
+<li><strong>A note.</strong> Seat count, contract number, where the PDF lives.</li>
+</ul>
+<h2>Do you need Jira Service Management Assets for this?</h2>
+<p>Assets can model licenses and contracts as objects with date attributes, and automation rules can act on those dates.
+It is the right tool when you already run a full asset inventory. It is also only available on Premium and Enterprise
+plans, and it takes real work to design the schema and the rules.</p>
+<p>If all you need is &quot;tell the owner before the date&quot;, there are lighter ways.</p>
+<h2>Option 1: one issue per renewal with a due date</h2>
+<p>Create a project or an issue type called &quot;Renewal&quot;, put the date in the due date field, assign it, and build a board or
+a filter sorted by due date. A filter subscription can e-mail the list of upcoming renewals every week.</p>
+<p>What goes wrong: after the renewal the issue is closed and the next year&#39;s issue is never created. A second problem is
+that a weekly list is easy to ignore; nobody is told &quot;this one is yours and it is 30 days away&quot;.</p>
+<h2>Option 2: Jira automation on due dates</h2>
+<p>A scheduled automation rule can search for issues whose due date is within 30 days and comment, transition or
+notify. Cloning the issue with a new date on close solves the &quot;next year&quot; problem.</p>
+<p>This works well if someone on the team is comfortable maintaining automation rules. Expect to spend time on the edge
+cases: several reminder stages, not reminding twice, and what happens when a date is edited.</p>
+<h2>Option 3: Expiry Tracker</h2>
+<p><a href="index.html">Expiry Tracker</a> is a Jira app with one list for licenses, contracts, domains and SSL certificates. It
+works on Jira Standard and does not need Assets.</p>
+<ol>
+<li>Add an item: type License or Contract, a name, the date, an owner, and optionally vendor, cost and a note.</li>
+<li>A Jira administrator chooses the project and issue type for reminders.</li>
+<li>Once a day the app checks every date. By default it creates an issue 60, 30 and 7 days ahead, assigned to the
+owner, with the vendor, cost and note in the description. The thresholds can be changed.</li>
+</ol>
+<p>When you renew, edit the date. The reminders start again for the new date, so there is no &quot;next year&quot; issue to
+remember. The &quot;Next 90 days&quot; view shows what is coming up, and the whole list can be exported as CSV for finance.</p>
+<p>What it does not do: it is not a contract repository or a license compliance tool. It does not store documents or
+count installed seats. It tracks dates and makes sure someone is told.</p>
+<h2>Recurring work without an expiry date</h2>
+<p>Some obligations have no end date but must happen on a schedule: a quarterly backup restore test, a yearly access
+review, a monthly patch window. Expiry Tracker has a &quot;Recurring check&quot; item type for these. You enter the next due
+date and an interval, and the app creates one issue per due date and moves the check forward by itself.</p>
+<h2>Which one to choose</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Due dates</th>
+<th>Automation rules</th>
+<th>Assets</th>
+<th>Expiry Tracker</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Works on Jira Standard</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Several reminders ahead of the date</td>
+<td>No</td>
+<td>You build it</td>
+<td>You build it</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Survives the renewal without manual steps</td>
+<td>No</td>
+<td>You build it</td>
+<td>You build it</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Also reads domain and certificate dates</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Free</td>
+<td>Free</td>
+<td>Premium plan</td>
+<td>Free up to 10 Jira users</td>
+</tr>
+</tbody></table>
+<p>Setup details are in the <a href="docs.html">documentation</a>.</p>
+</article>
+<footer><div class="wrap">
+  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
+  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
+  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to track SSL certificate expiry in Jira | Expiry Tracker</title>
+<meta name="description" content="Three ways to get a Jira issue before an SSL certificate expires: manual due dates, a script with Jira automation, or Expiry Tracker with its agent for internal hosts.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
+  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+</div></header>
+<article class="doc"><h1>How to track SSL certificate expiry in Jira</h1>
+<p>An expired certificate takes a site down for everyone at once, and it usually happens to a certificate nobody
+remembered: an internal tool, a load balancer, a host that was set up by someone who has left. This guide shows three
+ways to get a Jira issue before a certificate expires, from free and manual to automatic.</p>
+<h2>What a good reminder needs</h2>
+<ul>
+<li><strong>The real date.</strong> A date typed into a spreadsheet is wrong the day someone renews early or reissues the certificate.
+The date should be read from the certificate itself.</li>
+<li><strong>An owner.</strong> A reminder that goes to a shared mailbox is read by nobody. It should be assigned to one person.</li>
+<li><strong>Enough time.</strong> Seven days is fine for Let&#39;s Encrypt. A certificate that needs a purchase order needs 30 or 60.</li>
+<li><strong>Internal hosts.</strong> Many of the certificates that get forgotten are not reachable from the internet.</li>
+</ul>
+<h2>Option 1: read the date yourself and set a due date</h2>
+<p>For a handful of certificates this is enough. Read the expiry date with <code>openssl</code>:</p>
+<pre><code>echo | openssl s_client -connect portal.example.com:443 -servername portal.example.com 2&gt;/dev/null \
+  | openssl x509 -noout -enddate
+</code></pre>
+<p>Create a Jira issue per certificate, set the due date a few weeks before the printed date, and assign it.</p>
+<p>What goes wrong: the issue is closed after the renewal and nobody creates the next one, and nothing notices when a
+certificate is replaced with one that expires earlier.</p>
+<h2>Option 2: a script and Jira automation</h2>
+<p>Run the command above from cron for a list of hosts, compare the date with today, and call a Jira automation
+&quot;incoming webhook&quot; rule that creates an issue. This works and costs nothing.</p>
+<p>What you have to build yourself: avoiding a new issue every day once the threshold is passed, starting again after a
+renewal, noticing that the script itself has stopped running, and keeping the host list somewhere people can edit it.</p>
+<h2>Option 3: Expiry Tracker</h2>
+<p><a href="index.html">Expiry Tracker</a> is a Jira app that does the second option for you and keeps the list inside Jira.</p>
+<ol>
+<li>Add each certificate as an item: a name, the host (optionally with a port, such as <code>host:8443</code>) and an owner.</li>
+<li>On the settings page, create an agent token and follow the three commands shown there. They install a small
+open-source shell script on one Linux machine in your network. It needs only <code>sh</code>, <code>curl</code> and <code>openssl</code>.</li>
+<li>Once a day the script asks Expiry Tracker which hosts to check, reads each certificate and reports the dates back.</li>
+</ol>
+<p>From then on the app creates one Jira issue per certificate 60, 30 and 7 days before expiry (you can change the
+numbers), assigned to the owner, in the project you choose. After a renewal the reminders start again for the new date.</p>
+<p>Why a script on your side: Atlassian apps are not allowed to open connections to your servers. The script runs inside
+your network, so it also reads certificates on internal hosts and certificates from a private CA. Nothing but host
+names, ports and dates is exchanged.</p>
+<p>What it does not do: it does not renew certificates, and it does not find hosts by itself. You add them to the list.</p>
+<p>If the script stops reporting for 48 hours, the app opens an issue about that too, so a dead cron job does not turn
+into a missed renewal.</p>
+<h2>Which one to choose</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Manual due dates</th>
+<th>Script + automation</th>
+<th>Expiry Tracker</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Setup time</td>
+<td>Minutes per certificate</td>
+<td>A few hours</td>
+<td>A few minutes</td>
+</tr>
+<tr>
+<td>Date read from the certificate</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Internal hosts</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>No duplicate issues</td>
+<td>You</td>
+<td>You build it</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Tells you when the check itself stops</td>
+<td>No</td>
+<td>You build it</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Free</td>
+<td>Free</td>
+<td>Free up to 10 Jira users</td>
+</tr>
+</tbody></table>
+<p>More detail on the setup is in the <a href="docs.html">documentation</a>, section &quot;SSL agent&quot;.</p>
+</article>
+<footer><div class="wrap">
+  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
+  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
+  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+</div></footer>
+</body>
+</html>
