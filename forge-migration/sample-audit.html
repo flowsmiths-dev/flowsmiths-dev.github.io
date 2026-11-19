@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forge Migration Audit</title>
+<style>
+:root{--bg:#fff;--fg:#17191c;--muted:#5f6670;--line:#e3e6ea;--soft:#f5f7f9;--ink:#0d2a4a;--accent:#0b5cad;
+--s:#1f7a4d;--sbg:#e6f4ec;--m:#8a5a00;--mbg:#fdf1d8;--l:#b42318;--lbg:#fdeceb;--x:#fff;--xbg:#3d4148}
+@media screen and (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121417;--fg:#e8eaed;--muted:#a0a7b0;--line:#2a2e34;--soft:#1a1d21;--ink:#cfe2f7;--accent:#6aa9ec;
+--s:#7fd3a5;--sbg:#16301f;--m:#f0c36a;--mbg:#33280f;--l:#f59a92;--lbg:#3a1714;--x:#121417;--xbg:#c9ccd1}}
+:root[data-theme="dark"]{--bg:#121417;--fg:#e8eaed;--muted:#a0a7b0;--line:#2a2e34;--soft:#1a1d21;--ink:#cfe2f7;--accent:#6aa9ec;
+--s:#7fd3a5;--sbg:#16301f;--m:#f0c36a;--mbg:#33280f;--l:#f59a92;--lbg:#3a1714;--x:#121417;--xbg:#c9ccd1}
+@page{size:A4;margin:18mm 16mm 18mm;@bottom-left{content:"Flowsmiths · Forge migration audit";font:9px system-ui,sans-serif;color:#8a9099}
+@bottom-right{content:counter(page) " / " counter(pages);font:9px system-ui,sans-serif;color:#8a9099}}
+@page:first{@bottom-left{content:none}@bottom-right{content:none}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:13.5px/1.6 "Segoe UI",system-ui,-apple-system,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+main{max-width:860px;margin:0 auto;padding:32px 16px 64px}
+code{font:12px/1.4 Consolas,"SFMono-Regular",monospace;background:var(--soft);border:1px solid var(--line);padding:0 4px;border-radius:4px;white-space:nowrap}
+.muted{color:var(--muted)}
+/* cover */
+.cover{position:relative;min-height:240mm;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+.logo{font-weight:700;font-size:16px;color:var(--ink);letter-spacing:.01em}.logo i{color:var(--accent);font-style:normal}
+.ribbon{display:inline-block;margin-left:10px;background:var(--l);color:#fff;font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 9px;border-radius:4px;vertical-align:1px}
+.kicker{margin-top:70px;color:var(--accent);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:38px;line-height:1.1;margin:.25em 0 .2em;color:var(--ink);letter-spacing:-.01em}
+.sub{font-size:16px;color:var(--muted);margin:0 0 28px;max-width:600px}
+dl.meta{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.1fr;gap:14px 24px;margin:0 0 30px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+dl.meta dt{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}dl.meta dd{margin:2px 0 0;font-weight:600;overflow-wrap:anywhere}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px}
+.kpi b{display:block;font-size:24px;line-height:1.2;color:var(--ink)}.kpi span{font-size:12px;color:var(--muted)}
+.kpi.risk b{color:var(--l)}
+.summary{border-left:4px solid var(--accent);background:var(--soft);padding:14px 18px;border-radius:0 8px 8px 0}
+.summary h2{margin:0 0 6px;font-size:15px;border:0;padding:0}.summary ul{margin:0;padding-left:18px}.summary li{margin:5px 0}
+.cover footer{margin-top:auto;font-size:11.5px;color:var(--muted);padding-top:24px}
+/* sections */
+section{margin-top:34px}
+h2{font-size:19px;color:var(--ink);margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--ink);display:flex;gap:10px;align-items:baseline;break-after:avoid}
+h2 span{color:var(--accent);font-size:14px;font-weight:700}
+h3{font-size:14px;margin:0 0 4px;color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 10px}
+thead th{background:var(--ink);color:var(--bg);text-align:left;font-weight:600;padding:7px 8px;font-size:11.5px;letter-spacing:.02em}
+td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}tbody tr:nth-child(even) td{background:var(--soft)}
+td.num{text-align:center}tr{break-inside:avoid}
+.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;letter-spacing:.02em}
+.bS{color:var(--s);background:var(--sbg)}.bM{color:var(--m);background:var(--mbg)}.bL{color:var(--l);background:var(--lbg)}.bX,.bQ{color:var(--x);background:var(--xbg)}
+.legend{font-size:11.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}.legend span.li{white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
+.keep{break-inside:avoid}
+ul.notes li{margin:5px 0}
+.phase{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);break-inside:avoid}
+.when b{display:block;color:var(--accent);font-size:13px;white-space:nowrap}.when span{font-size:12px;color:var(--muted);white-space:nowrap}
+.what p{margin:0}
+.total{display:flex;justify-content:space-between;font-weight:700;padding:10px 0;color:var(--ink)}
+pre{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font:11px/1.5 Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.appendix{break-before:page}
+.signoff{margin-top:30px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+@media screen and (max-width:640px){dl.meta{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:repeat(2,1fr)}.phase{grid-template-columns:1fr;gap:4px}h1{font-size:30px}.cover{min-height:0}table{display:block;overflow-x:auto}}
+@media print{main{padding:0;max-width:none}.appendix,.break{break-before:page}}
+</style></head><body><main>
+<div class="cover">
+  <div class="top"><span class="logo">Flow<i>smiths</i></span><span>flowsmiths.app · info@flowsmiths.app</span></div>
+  <div class="kicker">Forge migration audit <span class="ribbon">Sample · anonymised</span></div>
+  <h1>Story Insights for Jira</h1>
+  <p class="sub">A module-by-module plan to move this Connect app to Forge, from its public descriptor. No access to the code was needed.</p>
+  <dl class="meta">
+    <div><dt>App key</dt><dd>com.example.story-insights</dd></div>
+    <div><dt>Product</dt><dd>Jira Cloud</dd></div>
+    <div><dt>Authentication</dt><dd>JWT</dd></div>
+    <div><dt>Date</dt><dd>19 November 2026</dd></div>
+  </dl>
+  <div class="kpis">
+    <div class="kpi"><b>10–19</b><span>developer days to native Forge</span></div>
+    <div class="kpi"><b>12</b><span>Connect modules, 5 with a direct equivalent</span></div>
+    <div class="kpi risk"><b>1</b><span>high-risk item</span></div>
+    <div class="kpi"><b>2</b><span>webhooks to Forge triggers</span></div>
+  </div>
+  <div class="summary"><h2>Summary</h2><ul>
+    <li><b>Fastest safe step:</b> adopt Forge with the same app key and keep the Connect modules for now. Customers keep their installs, licences and data, and you can ship updates again.</li>
+    <li><b>What Atlassian counts as done:</b> an app with a Forge manifest is still a Connect app until every Connect module is gone. The plan in section 5 gets you to zero.</li>
+    <li><b>High-risk items:</b> <code>jiraIssueFields</code>.</li>
+  </ul></div>
+  <footer>Sample audit built from a real app’s public Connect descriptor. Names, keys and URLs are anonymised.</footer>
+</div>
+
+<section class="break"><h2><span>1</span>Module by module</h2>
+<table><thead><tr><th>Connect module</th><th>Count</th><th>Forge target</th><th>Rating</th><th>Note</th></tr></thead><tbody><tr><td><code>jiraIssueFields</code></td><td class='num'>3</td><td><code>jira:customField</code> / <code>jira:customFieldType</code></td><td><span class="badge bL">High risk</span></td><td>Highest-risk item: existing field values and field ids must survive. Keep it as a Connect module until data migration is planned.</td></tr><tr><td><code>dialogs</code></td><td class='num'>1</td><td>Modal (UI Kit) / Custom UI modal</td><td><span class="badge bM">Rework</span></td><td>Dialog keys are replaced by modal calls in the front end.</td></tr><tr><td><code>webhooks</code></td><td class='num'>2</td><td>trigger (product events)</td><td><span class="badge bM">Rework</span></td><td>Per event; a few Connect events have no Forge event, and payloads differ.</td></tr><tr><td><code>webPanels</code></td><td class='num'>1</td><td>per location: <code>jira:issuePanel</code>, <code>confluence:contextMenu</code> …</td><td><span class="badge bM">Rework</span></td><td>No generic web panel; each location maps separately.</td></tr><tr><td><code>jiraProjectPages</code></td><td class='num'>1</td><td><code>jira:projectPage</code></td><td><span class="badge bS">Direct</span></td><td>Direct equivalent.</td></tr><tr><td><code>jiraEntityProperties</code></td><td class='num'>2</td><td><code>jira:entityProperty</code></td><td><span class="badge bS">Direct</span></td><td>JQL indexing definitions carry over; re-check paths.</td></tr><tr><td><code>generalPages</code></td><td class='num'>1</td><td><code>jira:globalPage</code> / <code>confluence:globalPage</code></td><td><span class="badge bS">Direct</span></td><td>Direct equivalent; can stay as a Connect module first.</td></tr><tr><td><code>jiraIssueContents</code></td><td class='num'>1</td><td><code>jira:issuePanel</code></td><td><span class="badge bS">Direct</span></td><td>Direct equivalent.</td></tr></tbody></table>
+<div class="legend"><span class="li"><span class="badge bS">Direct</span> configuration only</span><span class="li"><span class="badge bM">Rework</span> UI or logic rework</span><span class="li"><span class="badge bL">High risk</span> data or behaviour change</span><span class="li"><span class="badge bX">No equivalent</span> no Forge equivalent found</span></div>
+</section>
+<section class="break"><h2><span>2</span>Custom fields: keeping existing values</h2>
+<p>The app defines three issue fields: one that users edit (<b>Size</b>) and two that the app computes
+(<b>Detected Size</b>, <b>Detected Quality</b>). They are the main risk, because saved filters, boards and dashboards
+on customer sites refer to them.</p>
+<table class="keep"><thead><tr><th>Field</th><th>Today</th><th>Forge target</th><th>What to watch</th></tr></thead><tbody>
+<tr><td><b>Size</b></td><td>Editable Connect field</td><td><code>jira:customField</code></td><td>The field id changes, so saved filters and board quick filters that use it stop matching.</td></tr>
+<tr><td><b>Detected Size</b></td><td>Read-only, set by the app</td><td><code>jira:customField</code>, read-only</td><td>Values must be back-filled for existing issues.</td></tr>
+<tr><td><b>Detected Quality</b></td><td>Read-only, set by the app</td><td><code>jira:customField</code>, read-only</td><td>Same as Detected Size.</td></tr>
+</tbody></table>
+<h3>Recommended sequence</h3>
+<ol class="notes">
+<li>Step 1 keeps all three as Connect modules, so nothing changes for customers.</li>
+<li>Add the Forge fields next to the old ones and write to both for one release.</li>
+<li>Back-fill existing values with a background job: Forge async events, in batches, with a resume marker.</li>
+<li>Ship a short admin guide: which filters to edit, with a JQL find-and-replace example.</li>
+<li>Hide the old fields, then remove them in the next release.</li>
+</ol>
+</section>
+<section><h2><span>3</span>Scopes and consent</h2>
+<p>Connect scopes today: <code>READ</code>, <code>WRITE</code>.</p>
+<ul class="notes"><li>Forge uses granular scopes. Asking for more than before triggers an admin approval on upgrade, so list only what the app calls.</li></ul>
+<p><b>Likely Forge scopes:</b> judging from the modules alone, <code>read:jira-work</code> and <code>write:jira-work</code>, plus
+<code>storage:app</code> if tenant settings move into Forge storage. Confirm the list against the REST endpoints the
+backend calls before publishing.</p>
+</section>
+<section class="keep"><h2><span>4</span>Webhooks to Forge triggers</h2>
+<table><thead><tr><th>Connect webhook</th><th>Forge trigger event</th></tr></thead><tbody><tr><td><code>jira:issue_updated</code></td><td><code>avi:jira:updated:issue</code></td></tr><tr><td><code>jira:issue_deleted</code></td><td><code>avi:jira:deleted:issue</code></td></tr></tbody></table>
+<p>Forge event payloads have a different shape from Connect webhook bodies, so handlers need adapting. Check that every
+field your handler reads is still in the payload, or fetch it with one REST call.</p></section>
+<section><h2><span>5</span>Migration plan</h2>
+<div class="phase"><div class="when"><b>Week 1</b><span>2–3 days</span></div>
+<div class="what"><h3>Adopt Forge</h3><p>Declare the migration plan in the Partner Portal. Generate the manifest with Atlassian's <code>@atlassian/connect-to-forge</code>, compare it with the draft in the appendix, register the app with the same key and test the upgrade on a copy of a real site. Make sure the <code>uninstalled</code> callback that adopters see during the upgrade cannot delete tenant data.</p></div></div><div class="phase"><div class="when"><b>Weeks 2–4</b><span>3–5 days</span></div>
+<div class="what"><h3>Direct replacements</h3><p>Global page, project page, issue panel and the two entity properties move to <code>jira:globalPage</code>, <code>jira:projectPage</code>, <code>jira:issuePanel</code> and <code>jira:entityProperty</code>.</p></div></div><div class="phase"><div class="when"><b>Weeks 4–5</b><span>2–4 days</span></div>
+<div class="what"><h3>Rework</h3><p>The story dialog becomes a Forge modal, the web panel moves to its issue-view location and both webhooks become Forge triggers.</p></div></div><div class="phase"><div class="when"><b>Weeks 6–8</b><span>3–7 days</span></div>
+<div class="what"><h3>Custom fields</h3><p>New Forge fields, back-fill and the admin guide, as in section 2. This release removes the last Connect module.</p></div></div>
+<div class="total"><span>Total</span><span>10–19 developer days</span></div>
+<p class="muted">Before each step, send customers a short notice that explains any new consent screen.</p>
+</section>
+<section class="appendix"><h2><span>A</span>Draft manifest.yml for step 1</h2>
+<p>Generated from the descriptor. Compare it with the output of <code>@atlassian/connect-to-forge</code> before deploying.</p>
+<pre># Step 1 draft: adopt Forge with the same app key, keep every Connect module.
+# Generated from the public descriptor; review scopes and module keys before deploying.
+app:
+  id: ari:cloud:ecosystem::app/&lt;run `forge register` and paste the id&gt;
+  connect:
+    key: com.example.story-insights
+    remote: connect
+    authentication: jwt
+remotes:
+  - key: connect
+    baseUrl: https://app.example.com/jira
+permissions:
+  scopes:
+    - read:connect-jira  # replace with granular scopes in step 2
+    - write:connect-jira  # replace with granular scopes in step 2
+connectModules:
+  jira:lifecycle:
+    - key: lifecycle-events
+      installed: /installed
+      uninstalled: /uninstalled
+      enabled: /enabled
+      disabled: /disabled
+  jira:dialogs:
+    - key: si-story-zoom
+      # … remaining properties unchanged from atlassian-connect.json
+  jira:webhooks:
+    - key: webhook-jira-issue-updated
+      event: jira:issue_updated
+      url: /webhook_issue_events/update  # query parameters as in the descriptor
+    - key: webhook-jira-issue-deleted
+      event: jira:issue_deleted
+      url: /webhook_issue_events/delete  # query parameters as in the descriptor
+  jira:jiraProjectPages:
+    - key: si-project-page
+      # … remaining properties unchanged from atlassian-connect.json
+  jira:jiraEntityProperties:
+    - key: si-project-properties
+      # … remaining properties unchanged from atlassian-connect.json
+    - key: si-issue-properties
+      # … remaining properties unchanged from atlassian-connect.json
+  jira:jiraIssueFields:
+    - key: si-cfp
+      # … remaining properties unchanged from atlassian-connect.json
+    - key: si-cfp-ro
+      # … remaining properties unchanged from atlassian-connect.json
+    - key: si-grade-ro
+      # … remaining properties unchanged from atlassian-connect.json
+  jira:generalPages:
+    - key: si-tenant-page
+      # … remaining properties unchanged from atlassian-connect.json
+  jira:webPanels:
+    - key: si-issue-content-panel-main
+      # … remaining properties unchanged from atlassian-connect.json
+  jira:jiraIssueContents:
+    - key: si-issue-content-panel
+      # … remaining properties unchanged from atlassian-connect.json
+modules: {}  # Forge requires at least one native module; add the first one from step 2 here</pre>
+<div class="signoff">Prepared by Flowsmiths with our own analyser and reviewed by a person. Estimates assume one developer who knows the codebase.
+Atlassian, Jira, Confluence and Forge are trademarks of Atlassian; Flowsmiths is an independent vendor.</div>
+</section>
+</main></body></html>

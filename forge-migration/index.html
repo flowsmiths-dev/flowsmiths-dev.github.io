@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forge Migration Audit</title>
+<meta name="description" content="Your Connect app mapped to Forge in 48 hours. Module by module, with a ready-to-deploy step-1 manifest. $490, pay after you've read it.">
+<meta property="og:title" content="Your Connect app, mapped to Forge in 48 hours">
+<meta property="og:description" content="Module-by-module Forge migration audit with a ready-to-deploy step-1 manifest. $490, pay after you've read it.">
+<meta property="og:url" content="https://flowsmiths.app/forge-migration/">
+<meta property="og:type" content="website">
+<style>
+:root{--bg:#fbfaf7;--fg:#1c1b19;--muted:#5d5a54;--line:#e4e0d8;--card:#fff;--accent:#0b5cad;--warn:#a4400b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--fg:#ecebe7;--muted:#a9a69e;--line:#2d2c29;--card:#1c1b19;--accent:#6aa9ec;--warn:#f08a4b}}
+:root[data-theme="dark"]{--bg:#141413;--fg:#ecebe7;--muted:#a9a69e;--line:#2d2c29;--card:#1c1b19;--accent:#6aa9ec;--warn:#f08a4b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:48px 16px 80px}
+.kicker{color:var(--warn);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:clamp(30px,6vw,44px);line-height:1.15;margin:.3em 0 .4em}
+h2{font-size:22px;margin:2.2em 0 .6em}
+p.lead{font-size:19px;color:var(--muted);margin-top:0}
+.cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card b{display:block;font-size:18px;margin-bottom:4px}.price{font-size:28px;font-weight:700}
+.stat{font-size:32px;font-weight:700;color:var(--accent)}small,.muted{color:var(--muted)}
+ul{padding-left:20px}li{margin:.3em 0}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left}
+.home{margin:-24px 0 28px}.home a{font-weight:700;font-size:17px;color:var(--fg);text-decoration:none}.home i{color:var(--accent);font-style:normal}
+footer{margin-top:56px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<nav class="home"><a href="/">Flow<i>smiths</i></a></nav>
+<div class="kicker">Connect end of support · 31 January 2027</div>
+<h1>Your Connect app, mapped to Forge in 48 hours.</h1>
+<p class="lead">Admins already see “this app may stop working after January 2027” next to Connect apps. We read your public descriptor and hand you a module-by-module migration plan and a ready-to-deploy first manifest. No code access needed.</p>
+<a class="cta" href="mailto:info@flowsmiths.app?subject=Forge%20migration%20audit&body=App%20name%20or%20Marketplace%20link%3A%20">Get the audit for my app</a>
+<div class="muted">$490 · delivered in 48 hours · pay after you’ve read it</div>
+
+<h2>What we found across the Marketplace</h2>
+<div class="grid">
+  <div class="card"><div class="stat">868</div>cloud apps for Jira and Confluence are still on Connect</div>
+  <div class="card"><div class="stat">487</div>public descriptors analysed, module by module</div>
+  <div class="card"><div class="stat" id="days">31&nbsp;Jan</div><span id="days-label">is when Connect becomes unsupported</span></div>
+</div>
+<p class="muted"><small>Marketplace data as of 18 November 2026.</small></p>
+
+<h2>How it works</h2>
+<ol>
+  <li><b>You send us your app’s name or Marketplace link.</b> Nothing else: no code, no credentials, no call.</li>
+  <li><b>Within 48 hours you get the audit</b> as a PDF plus the step-1 <code>manifest.yml</code>.</li>
+  <li><b>You pay only if it was useful.</b> Invoice due in 7 days. Not useful? Tell us, and you owe nothing.</li>
+</ol>
+
+<h2>What’s in the audit</h2>
+<ul>
+  <li><b>Every Connect module mapped</b> to its Forge equivalent, rated S / M / L / no-equivalent, with notes on what breaks.</li>
+  <li><b>Blockers first:</b> custom fields with existing data, static macros, themes, blueprints, search request views.</li>
+  <li><b>Scopes and consent:</b> which granular Forge scopes you need and what your admins will be asked on upgrade.</li>
+  <li><b>Webhooks → Forge triggers</b>, event by event.</li>
+  <li><b>A risk-ordered plan</b> with an effort range in developer days.</li>
+  <li><b>Step-1 manifest.yml:</b> adopt Forge with the same app key and keep your Connect modules, so customers keep their installs and data and you can ship updates again.</li>
+  <li><b>The road to zero Connect modules.</b> Atlassian treats an app as Connect until the last Connect module is gone, so the plan covers every one of them, not only step 1.</li>
+</ul>
+
+<h2>Pricing</h2>
+<div class="grid">
+  <div class="card"><b>Migration audit</b><div class="price">$490</div><small>48 hours. Pay after you’ve read it. Credited against a migration.</small></div>
+  <div class="card"><b>Step-1 adoption</b><div class="price">$1,490</div><small>We prepare the Forge-adopted version of your app with the same key, test the upgrade on a copy site, and hand it to your team to release.</small></div>
+  <div class="card"><b>Full migration</b><div class="price">from $2,900</div><small>Fixed price, native Forge modules, release by release.</small></div>
+</div>
+<p class="muted"><small>Prices in USD, excluding VAT where it applies.</small></p>
+
+<h2>See a real audit</h2>
+<p>An anonymised audit of a real Jira app with 12 Connect modules and three custom fields: <a href="sample-audit.pdf">download the PDF</a> or <a href="sample-audit.html">read it in the browser</a>.</p>
+<h3>One row of it</h3>
+<table>
+  <tr><th>Connect module</th><th>Forge target</th><th>Effort</th></tr>
+  <tr><td><code>jiraIssueFields</code></td><td>jira:customField</td><td>L — existing values must survive</td></tr>
+  <tr><td><code>dynamicContentMacros</code></td><td>macro (Custom UI)</td><td>M — keep the macro key, check export</td></tr>
+  <tr><td><code>adminPages</code></td><td>jira:adminPage</td><td>S — direct equivalent</td></tr>
+</table>
+
+<h2>Questions</h2>
+<p><b>Do you need access to our code?</b><br>Not for the audit. Everything comes from the descriptor your app already publishes. For step 1 and full migrations we work in your repository with access you control.</p>
+<p><b>How do you do it so fast?</b><br>Our own analyser reads the descriptor and maps every module. A person then reviews each audit before it goes out.</p>
+<p><b>Is our information kept private?</b><br>Yes. Your audit is sent only to you, and we never publish anything about a single app.</p>
+<p><b>Will our customers have to reinstall?</b><br>No. Step 1 keeps the same app key, so existing installs, licences and data stay where they are. Admins may be asked to approve new permissions on upgrade, and the audit tells you which.</p>
+<p><b>We’d rather stop maintaining the app.</b><br>Then tell us. We also take over apps from vendors who no longer want to run them.</p>
+
+<h2>Who we are</h2>
+<p>Flowsmiths is an independent Atlassian Marketplace vendor that builds Forge apps for Jira, including <i>Expiry Tracker</i>. You deal with Tomas Bindac directly. We work by email, in English, and every deliverable is written, so you can forward it to your team.</p>
+<a class="cta" href="mailto:info@flowsmiths.app?subject=Forge%20migration%20audit&body=App%20name%20or%20Marketplace%20link%3A%20">Get the audit for my app</a>
+<div class="muted">or write to <b>info@flowsmiths.app</b></div>
+
+<footer>Flowsmiths · <!-- TODO legal name, registered address, company ID --> · flowsmiths.app · info@flowsmiths.app<br>Atlassian, Jira, Confluence and Forge are trademarks of Atlassian. We are an independent vendor, not affiliated with Atlassian.</footer>
+<script>
+(function(){var d=Math.ceil((new Date("2027-01-31T23:59:59Z")-new Date())/864e5);
+if(d>0){document.getElementById("days").textContent=d+" days";document.getElementById("days-label").textContent="left until Connect becomes unsupported";}})();
+</script>
+</main>
+</body>
+</html>
