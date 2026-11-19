@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://flowsmiths.app/</loc></url>
+  <url><loc>https://flowsmiths.app/expiry-tracker.html</loc></url>
+  <url><loc>https://flowsmiths.app/forge-migration/</loc></url>
   <url><loc>https://flowsmiths.app/docs.html</loc></url>
   <url><loc>https://flowsmiths.app/ssl-certificate-expiry-jira.html</loc></url>
   <url><loc>https://flowsmiths.app/domain-expiry-monitoring-jira.html</loc></url>
@@ -8,5 +10,4 @@
   <url><loc>https://flowsmiths.app/support.html</loc></url>
   <url><loc>https://flowsmiths.app/privacy.html</loc></url>
   <url><loc>https://flowsmiths.app/security.html</loc></url>
-  <url><loc>https://flowsmiths.app/forge-migration/</loc></url>
 </urlset>

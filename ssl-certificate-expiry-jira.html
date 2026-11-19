@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to track SSL certificate expiry in Jira | Expiry Tracker</title>
 <meta name="description" content="Three ways to get a Jira issue before an SSL certificate expires: manual due dates, a script with Jira automation, or Expiry Tracker with its agent for internal hosts.">
-<link rel="icon" type="image/svg+xml" href="logo.svg">
-<link rel="stylesheet" href="style.css">
+
+<link rel="icon" type="image/svg+xml" href="/flowsmiths.svg">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="index.html"><img src="logo.svg" alt="">Expiry Tracker</a>
-  <nav><a href="docs.html">Docs</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="security.html">Security</a></nav>
+  <a class="brand" href="/"><img src="/flowsmiths.svg" alt="">Flowsmiths</a>
+  <nav><a href="/expiry-tracker.html">Expiry Tracker</a><a href="/forge-migration/">Forge migration</a><a href="/docs.html">Docs</a><a href="/support.html">Support</a></nav>
 </div></header>
 <article class="doc"><h1>How to track SSL certificate expiry in Jira</h1>
 <p>An expired certificate takes a site down for everyone at once, and it usually happens to a certificate nobody
@@ -39,7 +40,7 @@ certificate is replaced with one that expires earlier.</p>
 <p>What you have to build yourself: avoiding a new issue every day once the threshold is passed, starting again after a
 renewal, noticing that the script itself has stopped running, and keeping the host list somewhere people can edit it.</p>
 <h2>Option 3: Expiry Tracker</h2>
-<p><a href="index.html">Expiry Tracker</a> is a Jira app that does the second option for you and keeps the list inside Jira.</p>
+<p><a href="expiry-tracker.html">Expiry Tracker</a> is a Jira app that does the second option for you and keeps the list inside Jira.</p>
 <ol>
 <li>Add each certificate as an item: a name, the host (optionally with a port, such as <code>host:8443</code>) and an owner.</li>
 <li>On the settings page, create an agent token and follow the three commands shown there. They install a small
@@ -104,9 +105,12 @@ into a missed renewal.</p>
 <p>More detail on the setup is in the <a href="docs.html">documentation</a>, section &quot;SSL agent&quot;.</p>
 </article>
 <footer><div class="wrap">
-  <div><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a href="security.html">Security</a></div>
-  <p>Expiry Tracker for Jira is made by Flowsmiths · <a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p>
-  <p>Jira is a trademark of Atlassian. Flowsmiths is not affiliated with Atlassian.</p>
+  <div class="fcols">
+    <div><b>Flowsmiths</b><p>Apps for Jira, built on Atlassian Forge.<br><a href="mailto:info@flowsmiths.app">info@flowsmiths.app</a></p></div>
+    <div><b>What we do</b><a href="/expiry-tracker.html">Expiry Tracker for Jira</a><a href="/forge-migration/">Forge migration audit</a><a href="/#takeover">App takeovers</a></div>
+    <div><b>Expiry Tracker</b><a href="/docs.html">Documentation</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy policy</a><a href="/security.html">Security</a></div>
+  </div>
+  <p class="legal"><!-- TODO: legal name, registered address, company ID -->Atlassian, Jira, Confluence and Forge are trademarks of Atlassian. Flowsmiths is an independent vendor, not affiliated with Atlassian.</p>
 </div></footer>
 </body>
 </html>
